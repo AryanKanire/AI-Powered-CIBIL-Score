@@ -1,0 +1,70 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env/
+*.env
+
+# Logs and database files
+*.log
+db.sqlite3
+
+# Pytest cache
+.pytest_cache/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VS Code settings
+.vscode/
+
+# IDE and editor files
+*.swp
+*.swo
+*.idea/
+*.iml
+
+# Pip dependency files
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Django stuff
+*.sqlite3
+/media/
+/staticfiles/
+local_settings.py
+
+# Flask stuff
+instance/
+*.pid
+
+# AWS credentials and Terraform files
+*.tfstate
+.terraform/
+.terraform.lock.hcl
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Gunicorn
+gunicorn.log
+gunicorn-error.log
+
+# MySQL/PostgreSQL
+*.db
+*.dump
+*.sql
+
+# Environment files
+.env.local
+.env.production
+.env.development

@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pydantic
+pymongo
+# or motor (async driver) if you prefer
+scikit-learn
+# for XAI endpoints, you might add shap, lime, etc.
+dotenv
