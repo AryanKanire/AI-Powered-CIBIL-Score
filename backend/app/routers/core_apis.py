@@ -30,12 +30,11 @@ def calculate_credit_score(request: CreditScoreRequest):
         score = predict_credit_score(features)
 
         # Store the result in MongoDB
-        # Use the business_id to identify the business in the database
         business_collection.update_one(
-            {"business_id": request.business_id},  # Check if the business already exists
+            {"business_id": request.business_id},
             {
                 "$set": {
-                    "credit_score": score,  # Update the credit score field
+                    "credit_score": score,
                     "Revenue": request.Revenue,
                     "Expenses": request.Expenses,
                     "Assets": request.Assets,
@@ -55,7 +54,6 @@ def calculate_credit_score(request: CreditScoreRequest):
             upsert=True  # If the business doesn't exist, create a new document
         )
 
-        # Returning the credit score and justification
         return CreditScoreResponse(
             business_id=request.business_id,
             credit_score=score,
@@ -63,6 +61,7 @@ def calculate_credit_score(request: CreditScoreRequest):
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @core_router.post("/risk-assessment")
 def risk_assessment(request: CreditScoreRequest):
@@ -91,3 +90,38 @@ def financial_report(business_id: int):
 def macroeconomic_factors(business_id: int):
     # Example: retrieve from an external API or DB
     return {"business_id": business_id, "factors": "Economic indicators..."}
+
+# New Endpoint to Get All Businesses
+@core_router.get("/get-businesses")
+def get_all_businesses():
+    try:
+        # Fetch all businesses from MongoDB
+        businesses = list(business_collection.find({}))  # Retrieves all records
+
+        # Convert MongoDB documents to a more friendly format (excluding Mongo's _id)
+        businesses = [
+            {
+                "business_id": business.get("business_id"),
+                "Company": business.get("Company"),
+                "Revenue": business.get("Revenue"),
+                "Expenses": business.get("Expenses"),
+                "Assets": business.get("Assets"),
+                "Liabilities": business.get("Liabilities"),
+                "Net_Profit": business.get("Net_Profit"),
+                "Cash_Flow": business.get("Cash_Flow"),
+                "Transactions": business.get("Transactions"),
+                "Sentiment_Score": business.get("Sentiment_Score"),
+                "GST_Filing_Status": business.get("GST_Filing_Status"),
+                "Profit_Margin": business.get("Profit_Margin"),
+                "Debt_to_Asset_Ratio": business.get("Debt_to_Asset_Ratio"),
+                "Cash_Flow_Ratio": business.get("Cash_Flow_Ratio"),
+                "Expense_Ratio": business.get("Expense_Ratio"),
+                "Transaction_Intensity": business.get("Transaction_Intensity"),
+            }
+            for business in businesses
+        ]
+
+        return {"businesses": businesses}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
