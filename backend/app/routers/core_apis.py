@@ -1,5 +1,3 @@
-# core_apis.py
-
 from fastapi import APIRouter, HTTPException
 from app.models.schemas import CreditScoreRequest, CreditScoreResponse
 from app.ml.model_utils import predict_credit_score
@@ -10,23 +8,38 @@ core_router = APIRouter()
 @core_router.post("/credit-score", response_model=CreditScoreResponse)
 def calculate_credit_score(request: CreditScoreRequest):
     try:
-        # Example feature extraction:
+        # Extracting all the new features from the request
         features = [
-            request.annual_revenue,
-            request.loan_amount,
-            request.gst_compliance,
-            request.past_defaults
-            # etc.
+            request.Revenue,
+            request.Expenses,
+            request.Assets,
+            request.Liabilities,
+            request.Net_Profit,
+            request.Cash_Flow,
+            request.Transactions,
+            request.Sentiment_Score,
+            request.GST_Filing_Status,
+            request.Profit_Margin,
+            request.Debt_to_Asset_Ratio,
+            request.Cash_Flow_Ratio,
+            request.Expense_Ratio,
+            request.Transaction_Intensity,
+            request.Loan_Amount,
+            request.GST_Compliance,
+            request.Past_Defaults
         ]
+        
+        # Call the ML model to predict the credit score using the extracted features
         score = predict_credit_score(features)
 
-        # You might want to store the result in the DB
+        # Optionally, you could store the result in the DB
         # business_collection.update_one(
         #     {"business_id": request.business_id},
         #     {"$set": {"credit_score": score}},
         #     upsert=True
         # )
 
+        # Returning the credit score and justification
         return CreditScoreResponse(
             business_id=request.business_id,
             credit_score=score,
@@ -38,7 +51,7 @@ def calculate_credit_score(request: CreditScoreRequest):
 @core_router.post("/risk-assessment")
 def risk_assessment(request: CreditScoreRequest):
     # Dummy logic for demonstration
-    risk_level = "HIGH" if request.past_defaults > 0 else "LOW"
+    risk_level = "HIGH" if request.Past_Defaults > 0 else "LOW"
     return {"business_id": request.business_id, "risk_level": risk_level}
 
 @core_router.get("/transaction-history/{business_id}")

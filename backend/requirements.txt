@@ -6,3 +6,4 @@ pymongo
 scikit-learn
 # for XAI endpoints, you might add shap, lime, etc.
 dotenv
+uvicorn
