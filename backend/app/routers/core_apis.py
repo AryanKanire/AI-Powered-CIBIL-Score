@@ -29,12 +29,31 @@ def calculate_credit_score(request: CreditScoreRequest):
         # Call the ML model to predict the credit score using the extracted features
         score = predict_credit_score(features)
 
-        # Optionally, you could store the result in the DB
-        # business_collection.update_one(
-        #     {"business_id": request.business_id},
-        #     {"$set": {"credit_score": score}},
-        #     upsert=True
-        # )
+        # Store the result in MongoDB
+        # Use the business_id to identify the business in the database
+        business_collection.update_one(
+            {"business_id": request.business_id},  # Check if the business already exists
+            {
+                "$set": {
+                    "credit_score": score,  # Update the credit score field
+                    "Revenue": request.Revenue,
+                    "Expenses": request.Expenses,
+                    "Assets": request.Assets,
+                    "Liabilities": request.Liabilities,
+                    "Net_Profit": request.Net_Profit,
+                    "Cash_Flow": request.Cash_Flow,
+                    "Transactions": request.Transactions,
+                    "Sentiment_Score": request.Sentiment_Score,
+                    "GST_Filing_Status": request.GST_Filing_Status,
+                    "Profit_Margin": request.Profit_Margin,
+                    "Debt_to_Asset_Ratio": request.Debt_to_Asset_Ratio,
+                    "Cash_Flow_Ratio": request.Cash_Flow_Ratio,
+                    "Expense_Ratio": request.Expense_Ratio,
+                    "Transaction_Intensity": request.Transaction_Intensity
+                }
+            },
+            upsert=True  # If the business doesn't exist, create a new document
+        )
 
         # Returning the credit score and justification
         return CreditScoreResponse(
