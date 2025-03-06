@@ -2,6 +2,7 @@
 
 import pickle
 import os
+import numpy as np
 
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "credit_model.pkl")
 
