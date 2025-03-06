@@ -59,4 +59,4 @@ cd model && uvicorn main:app --reload
 🔹 Expansion to global credit markets.  
 
 ## 🏆 Finally!!!  
-This project bridges the gap in credit evaluation for businesses, making lending more **efficient, fair, and data-driven**. It has the potential to revolutionize risk assessment in the financial sector! 🚀  
+This project aims to bridge the gap in credit evaluation for businesses, making lending more **efficient, fair, and data-driven**. It has the potential to revolutionize risk assessment in the financial sector! 🚀  
