@@ -8,7 +8,7 @@ core_router = APIRouter()
 @core_router.post("/credit-score", response_model=CreditScoreResponse)
 def calculate_credit_score(request: CreditScoreRequest):
     try:
-        # Extracting all the new features from the request
+        # Extracting the 14 features from the request (match the columns in 'X' dataframe)
         features = [
             request.Revenue,
             request.Expenses,
@@ -23,10 +23,7 @@ def calculate_credit_score(request: CreditScoreRequest):
             request.Debt_to_Asset_Ratio,
             request.Cash_Flow_Ratio,
             request.Expense_Ratio,
-            request.Transaction_Intensity,
-            request.Loan_Amount,
-            request.GST_Compliance,
-            request.Past_Defaults
+            request.Transaction_Intensity
         ]
         
         # Call the ML model to predict the credit score using the extracted features

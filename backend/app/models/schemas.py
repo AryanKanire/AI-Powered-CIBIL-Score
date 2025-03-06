@@ -17,9 +17,7 @@ class CreditScoreRequest(BaseModel):
     Cash_Flow_Ratio: float
     Expense_Ratio: float
     Transaction_Intensity: float
-    Loan_Amount: float
-    GST_Compliance: int  # Assuming 1 for compliant, 0 for non-compliant
-    Past_Defaults: int
+
 
 class CreditScoreResponse(BaseModel):
     business_id: int
