@@ -13,6 +13,19 @@ app = FastAPI(
     version="1.0.0"
 )
 
+
+from fastapi.middleware.cors import CORSMiddleware
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change this to ["http://localhost:5173"] for security
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+
+
 # Register routers with prefixes
 app.include_router(core_router, prefix="/api")
 app.include_router(xai_router, prefix="/api")

@@ -75,11 +75,16 @@ def get_transaction_history(business_id: int):
     transactions = []  # transaction_collection.find(...)
     return {"business_id": business_id, "transactions": transactions}
 
-@core_router.get("/gst-details/{business_id}")
+
+@core_router.get("/get-details/{business_id}")
 def get_gst_details(business_id: int):
-    # Example: retrieve from MongoDB
-    gst_info = {}  # gst_collection.find_one(...)
-    return {"business_id": business_id, "gst_details": gst_info}
+    # Fetch GST details from MongoDB
+    get_info = business_collection.find_one({"business_id": business_id}, {"_id": 0})  # Exclude MongoDB _id field
+    
+    if not get_info:
+        raise HTTPException(status_code=404, detail="Business not found")
+    
+    return {"business_id": business_id, "get_details": get_info}
 
 @core_router.get("/financial-report/{business_id}")
 def financial_report(business_id: int):
@@ -102,6 +107,7 @@ def get_all_businesses():
         businesses = [
             {
                 "business_id": business.get("business_id"),
+                "credit_score": business.get("credit_score"),
                 "Company": business.get("Company"),
                 "Revenue": business.get("Revenue"),
                 "Expenses": business.get("Expenses"),
@@ -117,6 +123,10 @@ def get_all_businesses():
                 "Cash_Flow_Ratio": business.get("Cash_Flow_Ratio"),
                 "Expense_Ratio": business.get("Expense_Ratio"),
                 "Transaction_Intensity": business.get("Transaction_Intensity"),
+                "Industry": business.get("industry"),
+                "Location": business.get("location"),
+
+
             }
             for business in businesses
         ]
